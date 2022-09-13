@@ -1,0 +1,37 @@
+H1 {
+    text-align: center;
+}
+
+.calculator-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.display-container {
+    padding: 5px;
+}
+
+.display {
+    height: 50px;
+    width: 292px;
+}
+
+.grid {
+    height: 500px;
+    width: 300px;
+    display: grid;
+    grid-template: repeat(6, 1fr) / repeat(4, 1fr);
+    gap: 5px 5px;
+}
+
+#ac-button {
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+#equals-button {
+    grid-column-start: 3;
+    grid-column-end: 5;
+}
