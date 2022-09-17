@@ -26,12 +26,12 @@ H1 {
     gap: 5px 5px;
 }
 
-#ac-button {
+.all-clear-button {
     grid-column-start: 1;
     grid-column-end: 3;
 }
 
-#equals-button {
+.equals-button {
     grid-column-start: 3;
     grid-column-end: 5;
 }
