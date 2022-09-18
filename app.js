@@ -2,6 +2,7 @@ let operandOne = null;
 let operandTwo = null;
 let operator = null;
 let displayValue = 0;
+let displayHasOperator = false;
 
 const numberButtons = document.querySelectorAll('.number-button');
 const operatorButtons = document.querySelectorAll('.operator-button');
@@ -44,12 +45,20 @@ function setDisplayValue() {
 setDisplayValue();
 
 function inputOperand(operand) {
-    operandOne += operand
-    displayValue = operandOne
+    if (!displayHasOperator) {
+        operandOne += operand
+        displayValue = operandOne
+    } else {
+        operandTwo += operand
+        displayValue = operandTwo
+    }
+    
 }
 
-function inputOperator() {
-
+function inputOperator(operator) {
+    if (operandOne !== null && operandTwo === null) {
+        
+    }
 }
 
 function performCalculation() {
