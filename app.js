@@ -20,15 +20,15 @@ const memoryDisplay = document.querySelector(".memory-display");
 
 numberButtons.forEach(function(button){
     button.addEventListener('click', function(){
-        updateDisplayValue();
         inputOperand(button.innerText);
+        updateDisplayValue();
     })
 })
 
 operatorButtons.forEach(function(button){
     button.addEventListener('click', function(){
-        updateDisplayValue();
         inputOperator(button.innerText);
+        updateDisplayValue();
     })
 })
 
@@ -49,57 +49,60 @@ updateDisplayValue();
 
 function inputOperand(operand) {
     if (displayState === null) {
-        operandOne += operand;
+        operandOne = operand;
         displayValue = operandOne;
         updateDisplayState('operandOne');
-    } else if (displayState === "operandOne" && displayHasOperator) {
-        operandTwo += operand;
+    } else if (displayState === 'operandOne' && !displayHasOperator) {
+        operandOne += operand;
+    } else if (displayState === 'operandOne' && displayHasOperator) {
+        operandTwo = operand;
         displayValue = operandTwo;
         updateDisplayState('OperandTwo');
+    } else {
+        operandTwo += operand;
     }
     updateDisplayValue(); 
 }
 
-function updateDisplayState(operandState);
+function updateDisplayState(operandState) {
     switch (operandState) {
-        'operandOne': displayState = "operandOne";
+        case 'operandOne': displayState = 'operandOne';
             break;
-        'operator': displayState = "operator";
-            break;
-        'operandTwo': displayState = "operandTwo"
+        case 'operandTwo': displayState = 'operandTwo';
             break;
     }
-    
+}
+
 function inputOperator(operator) {
     if (operandOne !== null && operandTwo === null) {
         storedOperator = operator;
+        displayHasOperator = true;
         updateOperatorButton();
-        return storedOperator;
     }
 }
 
-function updateOperatorButton() {
-    // Code to add highlighted class to selected operator button.
-}
+// function updateOperatorButton() {
+//     // Code to add highlighted class to selected operator button.
+// }
 
 function performCalculation(operandOne, operandTwo, operator) {
-    if (operandOne !== null && operandTwo !== null) {
+    if (operandOne != null && operandTwo != null) {
         switch (operator) {
-            '/':
+            case '/':
                 return operandOne / operandTwo;
-                break;
-            '*':
+            case '*':
                 return operandOne * operandTwo;
-                break;
-            '+':
-                return = operandOne + operandTwo;
-                break;
-            '-':
-                return = operandOne - operandTwo;
-                break;
+            case '+':
+                return operandOne + operandTwo;
+            case '-':
+                return operandOne - operandTwo;
         }
-        
     }
+}
+
+function displayResult() {
+    displayValue = performCalculation();
+    displayState = operandOne;
 }
 
 function clearDisplay() {
@@ -108,7 +111,7 @@ function clearDisplay() {
     operandTwo = null;
     displayedOperator = null;
     displayHasOperator = false;
-    setDisplayValue();
+    updateDisplayValue();
 }
 
 // function backSpace() {
