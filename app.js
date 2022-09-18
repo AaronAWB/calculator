@@ -1,6 +1,8 @@
 let operandOne = null;
 let operandTwo = null;
 let storedOperator = null;
+// variable stores a string indicating whether firstOperand or secondOperand has been entered.
+let displayState = null;
 let displayValue = 0;
 let displayHasOperator = false;
 
@@ -18,23 +20,24 @@ const memoryDisplay = document.querySelector(".memory-display");
 
 numberButtons.forEach(function(button){
     button.addEventListener('click', function(){
-        setDisplayValue();
+        updateDisplayValue();
         inputOperand(button.innerText);
     })
 })
 
 operatorButtons.forEach(function(button){
     button.addEventListener('click', function(){
-        setDisplayValue();
+        updateDisplayValue();
         inputOperator(button.innerText);
     })
 })
 
 allClearButton.addEventListener('click', clearDisplay);
+
 // backSpaceButton.addEventListener('click', backSpace);
 equalsButton.addEventListener('click', performCalculation);
 
-function setDisplayValue() {
+function updateDisplayValue() {
     const display = document.querySelector('.display');
     display.value = displayValue
     if (displayValue.length > 10) {
@@ -42,19 +45,31 @@ function setDisplayValue() {
     }
 }
 
-setDisplayValue();
+updateDisplayValue();
 
 function inputOperand(operand) {
-    if (!displayHasOperator) {
-        operandOne += operand
-        displayValue = operandOne
-    } else {
-        operandTwo += operand
-        displayValue = operandTwo
+    if (displayState === null) {
+        operandOne += operand;
+        displayValue = operandOne;
+        updateDisplayState('operandOne');
+    } else if (displayState === "operandOne" && displayHasOperator) {
+        operandTwo += operand;
+        displayValue = operandTwo;
+        updateDisplayState('OperandTwo');
     }
-    setDisplayValue(); 
+    updateDisplayValue(); 
 }
 
+function updateDisplayState(operandState);
+    switch (operandState) {
+        'operandOne': displayState = "operandOne";
+            break;
+        'operator': displayState = "operator";
+            break;
+        'operandTwo': displayState = "operandTwo"
+            break;
+    }
+    
 function inputOperator(operator) {
     if (operandOne !== null && operandTwo === null) {
         storedOperator = operator;
@@ -67,18 +82,23 @@ function updateOperatorButton() {
     // Code to add highlighted class to selected operator button.
 }
 
-function performCalculation(operator) {
+function performCalculation(operandOne, operandTwo, operator) {
     if (operandOne !== null && operandTwo !== null) {
         switch (operator) {
             '/':
-                displayValue = operandOne / operandTwo;
+                return operandOne / operandTwo;
+                break;
             '*':
-                displayValue = operandOne * operandTwo;
+                return operandOne * operandTwo;
+                break;
             '+':
-                displayValue = operandOne + operandTwo;
+                return = operandOne + operandTwo;
+                break;
             '-':
-                displayValue = operandOne - operandTwo;
+                return = operandOne - operandTwo;
+                break;
         }
+        
     }
 }
 
