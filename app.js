@@ -1,6 +1,6 @@
 let operandOne = null;
 let operandTwo = null;
-let operator = null;
+let displayedOperator = null;
 let displayValue = 0;
 let displayHasOperator = false;
 
@@ -52,13 +52,15 @@ function inputOperand(operand) {
         operandTwo += operand
         displayValue = operandTwo
     }
-    
+    setDisplayValue(); 
 }
 
 function inputOperator(operator) {
     if (operandOne !== null && operandTwo === null) {
-        
+        displayedOperator = operator;
+        displayValue = displayedOperator;
     }
+    setDisplayValue();
 }
 
 function performCalculation() {
