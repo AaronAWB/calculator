@@ -16,6 +16,8 @@ H1 {
 .display {
     height: 70px;
     width: 292px;
+    border: black solid 5px;
+    color: black;
 }
 
 .button-grid {

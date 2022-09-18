@@ -21,31 +21,31 @@ const memoryDisplay = document.querySelector(".memory-display");
 numberButtons.forEach(function(button){
     button.addEventListener('click', function(){
         inputOperand(button.innerText);
-        updateDisplayValue();
+        updateDisplay();
     })
 })
 
 operatorButtons.forEach(function(button){
     button.addEventListener('click', function(){
         inputOperator(button.innerText);
-        updateDisplayValue();
+        updateDisplay();
     })
 })
 
 allClearButton.addEventListener('click', clearDisplay);
 
 // backSpaceButton.addEventListener('click', backSpace);
-equalsButton.addEventListener('click', performCalculation);
+equalsButton.addEventListener('click', displayResult);
 
-function updateDisplayValue() {
+function updateDisplay() {
     const display = document.querySelector('.display');
-    display.value = displayValue
-    if (displayValue.length > 10) {
-        displayValue = displayValue.substring (0, 10);
-    }
+    display.innerText = displayValue;
+    // if (displayValue.length > 10) {
+    //     displayValue = display.substring (0, 10);
+    // }
 }
 
-updateDisplayValue();
+updateDisplay();
 
 function inputOperand(operand) {
     if (displayState === null) {
@@ -54,14 +54,16 @@ function inputOperand(operand) {
         updateDisplayState('operandOne');
     } else if (displayState === 'operandOne' && !displayHasOperator) {
         operandOne += operand;
+        displayValue = operandOne;
     } else if (displayState === 'operandOne' && displayHasOperator) {
         operandTwo = operand;
         displayValue = operandTwo;
         updateDisplayState('OperandTwo');
     } else {
         operandTwo += operand;
+        displayValue = operandTwo;
     }
-    updateDisplayValue(); 
+    updateDisplay(); 
 }
 
 function updateDisplayState(operandState) {
@@ -77,7 +79,7 @@ function inputOperator(operator) {
     if (operandOne !== null && operandTwo === null) {
         storedOperator = operator;
         displayHasOperator = true;
-        updateOperatorButton();
+        // updateOperatorButton();
     }
 }
 
@@ -85,11 +87,12 @@ function inputOperator(operator) {
 //     // Code to add highlighted class to selected operator button.
 // }
 
-function performCalculation(operandOne, operandTwo, operator) {
+function performCalculation(operandOne, operandTwo, storedOperator) {
     if (operandOne != null && operandTwo != null) {
-        switch (operator) {
+        switch (storedOperator) {
+
             case '/':
-                return operandOne / operandTwo;
+                 return operandOne / operandTwo;
             case '*':
                 return operandOne * operandTwo;
             case '+':
@@ -101,7 +104,9 @@ function performCalculation(operandOne, operandTwo, operator) {
 }
 
 function displayResult() {
-    displayValue = performCalculation();
+    const calculation = performCalculation(operandOne, operandTwo, storedOperator);
+    displayValue = calculation;
+    updateDisplay();
     displayState = operandOne;
 }
 
@@ -111,7 +116,7 @@ function clearDisplay() {
     operandTwo = null;
     displayedOperator = null;
     displayHasOperator = false;
-    updateDisplayValue();
+    updateDisplay();
 }
 
 // function backSpace() {
