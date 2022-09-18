@@ -1,6 +1,6 @@
 let operandOne = null;
 let operandTwo = null;
-let displayedOperator = null;
+let storedOperator = null;
 let displayValue = 0;
 let displayHasOperator = false;
 
@@ -31,8 +31,8 @@ operatorButtons.forEach(function(button){
 })
 
 allClearButton.addEventListener('click', clearDisplay);
-backSpaceButton.addEventListener('click', backSpace);
-equalsButton.addEventListener('click', performCalculation);
+// backSpaceButton.addEventListener('click', backSpace);
+// equalsButton.addEventListener('click', performCalculation);
 
 function setDisplayValue() {
     const display = document.querySelector('.display');
@@ -57,20 +57,28 @@ function inputOperand(operand) {
 
 function inputOperator(operator) {
     if (operandOne !== null && operandTwo === null) {
-        displayedOperator = operator;
-        displayValue = displayedOperator;
+        storedOperator = operator;
+        return storedOperator;
     }
+}
+
+function updateOperatorButton() {
+
+}
+
+// function performCalculation() {
+
+// }
+
+function clearDisplay() {
+    displayValue = 0;
+    operandOne = null;
+    operandTwo = null;
+    displayedOperator = null;
+    displayHasOperator = false;
     setDisplayValue();
 }
 
-function performCalculation() {
+// function backSpace() {
 
-}
-
-function clearDisplay() {
-
-}
-
-function backSpace() {
-
-}
+// }
