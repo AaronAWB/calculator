@@ -32,7 +32,7 @@ operatorButtons.forEach(function(button){
 
 allClearButton.addEventListener('click', clearDisplay);
 // backSpaceButton.addEventListener('click', backSpace);
-// equalsButton.addEventListener('click', performCalculation);
+equalsButton.addEventListener('click', performCalculation);
 
 function setDisplayValue() {
     const display = document.querySelector('.display');
@@ -58,17 +58,29 @@ function inputOperand(operand) {
 function inputOperator(operator) {
     if (operandOne !== null && operandTwo === null) {
         storedOperator = operator;
+        updateOperatorButton();
         return storedOperator;
     }
 }
 
 function updateOperatorButton() {
-
+    // Code to add highlighted class to selected operator button.
 }
 
-// function performCalculation() {
-
-// }
+function performCalculation(operator) {
+    if (operandOne !== null && operandTwo !== null) {
+        switch (operator) {
+            '/':
+                displayValue = operandOne / operandTwo;
+            '*':
+                displayValue = operandOne * operandTwo;
+            '+':
+                displayValue = operandOne + operandTwo;
+            '-':
+                displayValue = operandOne - operandTwo;
+        }
+    }
+}
 
 function clearDisplay() {
     displayValue = 0;
