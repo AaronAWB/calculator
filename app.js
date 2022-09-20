@@ -10,7 +10,7 @@ let result = null;
 const numberButtons = document.querySelectorAll('.number-button');
 const operatorButtons = document.querySelectorAll('.operator-button');
 const allClearButton = document.querySelector('.all-clear-button');
-const deleteButton = document.querySelector('.delete-button');
+const backSpaceButton = document.querySelector('.backspace-button');
 const equalsButton = document.querySelector('.equals-button');
 
 const memoryAddButton = document.querySelector(".memory-add-button");
@@ -34,8 +34,7 @@ operatorButtons.forEach(function(button){
 })
 
 allClearButton.addEventListener('click', clearDisplay);
-
-// backSpaceButton.addEventListener('click', backSpace);
+backSpaceButton.addEventListener('click', deleteLastDigit);
 equalsButton.addEventListener('click', displayResult);
 
 function updateDisplay() {
@@ -57,9 +56,9 @@ function inputOperand(operand) {
         operandOne += operand;
         displayValue = operandOne;
     } else if (displayState === 'operandOne' && displayHasOperator) {
+        updateDisplayState('operandTwo');
         operandTwo = operand;
         displayValue = operandTwo;
-        updateDisplayState('OperandTwo');
     } else if (displayState === 'operandTwo') {
         operandTwo += operand;
         displayValue = operandTwo;
@@ -105,7 +104,7 @@ function performCalculation(operandOne, operandTwo, storedOperator) {
             case '*':
                 return operandOne * operandTwo;
             case '+':
-                return operandOne + operandTwo;
+                return parseInt(operandOne) + parseInt(operandTwo);
             case '-':
                 return operandOne - operandTwo;
         }
@@ -115,20 +114,24 @@ function performCalculation(operandOne, operandTwo, storedOperator) {
 function displayResult() {
     if (result === null) {
         let calculation = performCalculation(operandOne, operandTwo, storedOperator);
-        result = calculation;
+        result = calculation.toString();
         displayValue = result;
         updateDisplay();
         updateDisplayState(result);
+        displayHasOperator = false;
+        displayedOperator = null;
         operandTwo = null;
+        operandOne = null;
     } else {
         let calculation = performCalculation(result, operandTwo, storedOperator);
-        result = calculation;
+        result = calculation.toString();
         displayValue = result;
         updateDisplay();
         updateDisplayState(result);
         displayHasOperator = false;
         diplayedOperator = null;
         operandTwo = null;
+        operandOne = null;
     }
 }
 
@@ -143,6 +146,16 @@ function clearDisplay() {
     updateDisplay();
 }
 
-// function backSpace() {
+function deleteLastDigit() {
+    displayValue = displayValue.slice(0, -1);
+}
 
-// }
+function showValues() {
+    console.log(`OperandOne = ${operandOne}`);
+    console.log(`OperandTwo = ${operandTwo}`);
+    console.log(`storedOperator = ${storedOperator}`);
+    console.log(`displayState = ${displayState}`);
+    console.log(`displayValue = ${displayValue}`);
+    console.log(`displayHasOperator = ${displayHasOperator}`);
+    console.log(`result = ${result}`);
+}
