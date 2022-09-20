@@ -5,6 +5,7 @@ let storedOperator = null;
 let displayState = null;
 let displayValue = 0;
 let displayHasOperator = false;
+let result = null;
 
 const numberButtons = document.querySelectorAll('.number-button');
 const operatorButtons = document.querySelectorAll('.operator-button');
@@ -39,10 +40,10 @@ equalsButton.addEventListener('click', displayResult);
 
 function updateDisplay() {
     const display = document.querySelector('.display');
-    display.innerText = displayValue;
-    // if (displayValue.length > 10) {
-    //     displayValue = display.substring (0, 10);
-    // }
+    display.innerText = displayValue
+    if (displayValue.length > 10) {
+        displayValue = displayValue.substring (0, 10);
+    }
 }
 
 updateDisplay();
@@ -59,9 +60,13 @@ function inputOperand(operand) {
         operandTwo = operand;
         displayValue = operandTwo;
         updateDisplayState('OperandTwo');
-    } else {
+    } else if (displayState === 'operandTwo') {
         operandTwo += operand;
         displayValue = operandTwo;
+    } else if (displayState === 'result' && displayHasOperator) {
+        operandTwo += operand;
+        displayValue = operandTwo;
+        updateDisplayState('operandTwo');
     }
     updateDisplay(); 
 }
@@ -72,15 +77,19 @@ function updateDisplayState(operandState) {
             break;
         case 'operandTwo': displayState = 'operandTwo';
             break;
+        case 'result': displayState = 'result';
     }
 }
 
 function inputOperator(operator) {
-    if (operandOne !== null && operandTwo === null) {
+    if (operandOne != null && operandTwo === null) {
+        storedOperator = operator;
+        displayHasOperator = true; 
+    } else if (result != null && operandTwo === null) {
         storedOperator = operator;
         displayHasOperator = true;
-        // updateOperatorButton();
     }
+    // updateOperatorButton();
 }
 
 // function updateOperatorButton() {
@@ -104,10 +113,23 @@ function performCalculation(operandOne, operandTwo, storedOperator) {
 }
 
 function displayResult() {
-    const calculation = performCalculation(operandOne, operandTwo, storedOperator);
-    displayValue = calculation;
-    updateDisplay();
-    displayState = operandOne;
+    if (result === null) {
+        let calculation = performCalculation(operandOne, operandTwo, storedOperator);
+        result = calculation;
+        displayValue = result;
+        updateDisplay();
+        updateDisplayState(result);
+        operandTwo = null;
+    } else {
+        let calculation = performCalculation(result, operandTwo, storedOperator);
+        result = calculation;
+        displayValue = result;
+        updateDisplay();
+        updateDisplayState(result);
+        displayHasOperator = false;
+        diplayedOperator = null;
+        operandTwo = null;
+    }
 }
 
 function clearDisplay() {
@@ -115,7 +137,9 @@ function clearDisplay() {
     operandOne = null;
     operandTwo = null;
     displayedOperator = null;
+    displayState = null;
     displayHasOperator = false;
+    result = null;
     updateDisplay();
 }
 
