@@ -2,16 +2,17 @@ let currentOperand = '0';
 let previousOperand = '';
 let operator = '';
 let currentContinuousFunctionTotal = '';
-let displayedTotal = '';
+let totalIsDisplayed = false;
 
 const numberButtons = document.querySelectorAll('.number-button');
 const operatorButtons = document.querySelectorAll('.operator-button');
+const decimalButton = document.querySelector('.decimal-button');
 const allClearButton = document.querySelector('.all-clear-button');
 const backSpaceButton = document.querySelector('.backspace-button');
 const equalsButton = document.querySelector('.equals-button');
 
 const memoryAddButton = document.querySelector(".memory-add-button");
-const memoryRemoveButton = document.querySelector(".memory-remove-button");
+const memorySubtractButton = document.querySelector(".memory-remove-button");
 const memoryRecallButton = document.querySelector(".memory-recall-button");
 const memoryClearButton = document.querySelector(".memory-clear-button");
 const memoryDisplay = document.querySelector(".memory-display");
@@ -28,8 +29,15 @@ operatorButtons.forEach(function(button){
     })
 })
 
+decimalButton.addEventListener('click', inputDecimal);
 allClearButton.addEventListener('click', allClear);
 backSpaceButton.addEventListener('click', backSpace);
+
+memoryAddButton.addEventListener('click', addToMemory);
+memorySubtractButton.addEventListener('click', subtractFromMemory);
+memoryRecallButton.addEventListener('click', recallMemory)
+memoryClearButton.addEventListener('click', clearMemory)
+
 
 function updatePrimaryDisplay() {
     const primaryDisplay = document.querySelector('.primary-display');
@@ -58,8 +66,16 @@ function inputOperator(selectedOperator) {
     } else {
         operator = selectedOperator;
         updateSecondaryDisplay('continuousFunction');
+        totalIsDisplayed = false;
     }
     updatePrimaryDisplay();
+}
+
+function inputDecimal() {
+    if (!currentOperand.includes('.') && !totalIsDisplayed) {
+        currentOperand += "."
+        updatePrimaryDisplay();
+    }
 }
 
 function updateSecondaryDisplay(state) {
@@ -95,6 +111,7 @@ function updateContinousFunction (state) {
 equalsButton.addEventListener('click', function() {
    if (operator) {
     currentOperand = currentContinuousFunctionTotal;
+    totalIsDisplayed = true;
     updateContinousFunction('equals');
     updatePrimaryDisplay();
     updateSecondaryDisplay();
@@ -122,16 +139,26 @@ function performCalculation(currentOperand, currentContinuousFunctionTotal, oper
     return result.toString();
 }
 
-function allClear() {
+function resetCurrentOperand () {
     currentOperand = '0';
+}
+
+function allClear() {
+    resetCurrentOperand();
     previousOperand = ''
     operator = '';
     currentContinuousFunctionTotal = '';
+    totalIsDisplayed = false;
     updateSecondaryDisplay();
     updatePrimaryDisplay();
 }
 
 function backSpace() {
-    currentOperand = currentOperand.slice(0,-1);
+    if (!totalIsDisplayed) {
+        currentOperand = currentOperand.slice(0,-1);
+        if (currentOperand === '') {
+            resetCurrentOperand();
+        }
     updatePrimaryDisplay();
+    }
 }
