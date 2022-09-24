@@ -3,6 +3,7 @@ let previousOperand = '';
 let operator = '';
 let currentContinuousFunctionTotal = '';
 let totalIsDisplayed = false;
+let memory = '';
 
 const numberButtons = document.querySelectorAll('.number-button');
 const operatorButtons = document.querySelectorAll('.operator-button');
@@ -34,9 +35,9 @@ allClearButton.addEventListener('click', allClear);
 backSpaceButton.addEventListener('click', backSpace);
 
 memoryAddButton.addEventListener('click', addToMemory);
-memorySubtractButton.addEventListener('click', subtractFromMemory);
-memoryRecallButton.addEventListener('click', recallMemory)
-memoryClearButton.addEventListener('click', clearMemory)
+// memorySubtractButton.addEventListener('click', subtractFromMemory);
+// memoryRecallButton.addEventListener('click', recallMemory)
+// memoryClearButton.addEventListener('click', clearMemory)
 
 
 function updatePrimaryDisplay() {
@@ -161,4 +162,9 @@ function backSpace() {
         }
     updatePrimaryDisplay();
     }
+}
+
+function addToMemory () {
+    memory = currentOperand;
+    memoryDisplay.innerText = memory;
 }
