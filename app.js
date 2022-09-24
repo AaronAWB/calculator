@@ -7,6 +7,7 @@ let memory = '';
 
 const numberButtons = document.querySelectorAll('.number-button');
 const operatorButtons = document.querySelectorAll('.operator-button');
+
 const decimalButton = document.querySelector('.decimal-button');
 const allClearButton = document.querySelector('.all-clear-button');
 const backSpaceButton = document.querySelector('.backspace-button');
@@ -16,7 +17,6 @@ const memoryAddButton = document.querySelector(".memory-add-button");
 const memorySubtractButton = document.querySelector(".memory-remove-button");
 const memoryRecallButton = document.querySelector(".memory-recall-button");
 const memoryClearButton = document.querySelector(".memory-clear-button");
-const memoryDisplay = document.querySelector(".memory-display");
 
 numberButtons.forEach(function(button){
     button.addEventListener('click', function(){
@@ -36,8 +36,8 @@ backSpaceButton.addEventListener('click', backSpace);
 
 memoryAddButton.addEventListener('click', addToMemory);
 memorySubtractButton.addEventListener('click', subtractFromMemory);
-// memoryRecallButton.addEventListener('click', recallMemory)
-// memoryClearButton.addEventListener('click', clearMemory)
+memoryRecallButton.addEventListener('click', recallMemory)
+memoryClearButton.addEventListener('click', clearMemory)
 
 
 function updatePrimaryDisplay() {
@@ -140,36 +140,43 @@ function performCalculation(currentOperand, currentContinuousFunctionTotal, oper
     return result.toString();
 }
 
-function resetCurrentOperand () {
-    currentOperand = '0';
-}
-
 function allClear() {
-    resetCurrentOperand();
+    currentOperand = '0'
     previousOperand = ''
     operator = '';
     currentContinuousFunctionTotal = '';
     totalIsDisplayed = false;
     updateSecondaryDisplay();
-    updatePrimaryDisplay();
 }
 
 function backSpace() {
     if (!totalIsDisplayed) {
         currentOperand = currentOperand.slice(0,-1);
-        if (currentOperand === '') {
-            resetCurrentOperand();
-        }
-    updatePrimaryDisplay();
+        updatePrimaryDisplay();
     }
+}
+
+function updateMemoryDisplay() {
+    const memoryDisplay = document.querySelector(".memory-display");
+    memory === '' ? memoryDisplay.innerText = '' : memoryDisplay.innerText = `Memory: ${memory}`;
 }
 
 function addToMemory() {
     memory = currentOperand;
-    memoryDisplay.innerText = memory;
+    updateMemoryDisplay();
 }
 
 function subtractFromMemory() {
     memory = memory - currentOperand;
-    memoryDisplay.innerText = memory;
+    updateMemoryDisplay();
+}
+
+function recallMemory() {
+    currentOperand = memory;
+    updatePrimaryDisplay();
+}
+
+function clearMemory() {
+    memory = '';
+    updateMemoryDisplay();
 }

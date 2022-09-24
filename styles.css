@@ -46,10 +46,6 @@ H1 {
     grid-column-end: 3;
 }
 
-.selected {
-    background-color: red;
-}
-
 .equals-button {
     grid-column-start: 3;
     grid-column-end: 5;
