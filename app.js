@@ -35,7 +35,7 @@ allClearButton.addEventListener('click', allClear);
 backSpaceButton.addEventListener('click', backSpace);
 
 memoryAddButton.addEventListener('click', addToMemory);
-// memorySubtractButton.addEventListener('click', subtractFromMemory);
+memorySubtractButton.addEventListener('click', subtractFromMemory);
 // memoryRecallButton.addEventListener('click', recallMemory)
 // memoryClearButton.addEventListener('click', clearMemory)
 
@@ -164,7 +164,12 @@ function backSpace() {
     }
 }
 
-function addToMemory () {
+function addToMemory() {
     memory = currentOperand;
+    memoryDisplay.innerText = memory;
+}
+
+function subtractFromMemory() {
+    memory = memory - currentOperand;
     memoryDisplay.innerText = memory;
 }
