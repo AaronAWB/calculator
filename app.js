@@ -27,6 +27,7 @@ operatorButtons.forEach(function(button){
 })
 
 allClearButton.addEventListener('click', allClear);
+backSpaceButton.addEventListener('click', backSpace);
 
 function updatePrimaryDisplay() {
     const primaryDisplay = document.querySelector('.primary-display');
@@ -49,15 +50,18 @@ function inputNumber(number) {
 
 function inputOperator(selectedOperator) {
     operator = selectedOperator;
+    !previousOperand ? updateSecondaryDisplay('firstCalculation') : updateSecondaryDisplay('continuousFunction');  
     updatePrimaryDisplay();
-    updateSecondaryDisplay('calculation');
 }
 
-function updateSecondaryDisplay(operation) {
+function updateSecondaryDisplay(state) {
     const secondaryDisplay = document.querySelector('.secondary-display');
-    if (operation === 'calculation') {
+    if (state === 'firstCalculation') {
         previousOperand = currentOperand;
         secondaryDisplay.innerText = previousOperand + " " + operator;
+        clearCurrentOperand();
+    } else if (state === 'continuousFunction') {
+        secondaryDisplay.innerText += " " + currentOperand + " " + operator;
         clearCurrentOperand();
     } else {
         secondaryDisplay.innerText = ''
@@ -70,8 +74,11 @@ function clearCurrentOperand() {
 }
 
 equalsButton.addEventListener('click', function() {
-   currentOperand = performCalculation(currentOperand, previousOperand, operator);
-   updatePrimaryDisplay();
+   if (operator != '') {
+        currentOperand = performCalculation(currentOperand, previousOperand, operator)
+        updatePrimaryDisplay();
+        updateSecondaryDisplay();
+   }
 })
 
 function performCalculation(currentOperand, previousOperand, operator) {
@@ -100,5 +107,10 @@ function allClear() {
     previousOperand = ''
     operator = '';
     updateSecondaryDisplay();
+    updatePrimaryDisplay();
+}
+
+function backSpace() {
+    currentOperand = currentOperand.slice(0,-1);
     updatePrimaryDisplay();
 }
