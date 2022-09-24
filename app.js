@@ -146,6 +146,7 @@ function allClear() {
     operator = '';
     currentContinuousFunctionTotal = '';
     totalIsDisplayed = false;
+    updatePrimaryDisplay();
     updateSecondaryDisplay();
 }
 
