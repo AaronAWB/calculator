@@ -1,6 +1,8 @@
 let currentOperand = '0';
 let previousOperand = '';
 let operator = '';
+let currentContinuousFunctionTotal = '';
+let displayedTotal = '';
 
 const numberButtons = document.querySelectorAll('.number-button');
 const operatorButtons = document.querySelectorAll('.operator-button');
@@ -46,11 +48,17 @@ function inputNumber(number) {
         currentOperand += number.toString();
     }
     updatePrimaryDisplay();
+    updateContinousFunction();
 }
 
 function inputOperator(selectedOperator) {
-    operator = selectedOperator;
-    !previousOperand ? updateSecondaryDisplay('firstCalculation') : updateSecondaryDisplay('continuousFunction');  
+    if (!operator) {
+        operator = selectedOperator;
+        updateSecondaryDisplay('firstCalculation')
+    } else {
+        operator = selectedOperator;
+        updateSecondaryDisplay('continuousFunction');
+    }
     updatePrimaryDisplay();
 }
 
@@ -59,6 +67,7 @@ function updateSecondaryDisplay(state) {
     if (state === 'firstCalculation') {
         previousOperand = currentOperand;
         secondaryDisplay.innerText = previousOperand + " " + operator;
+        updateContinousFunction('firstOperator');
         clearCurrentOperand();
     } else if (state === 'continuousFunction') {
         secondaryDisplay.innerText += " " + currentOperand + " " + operator;
@@ -73,29 +82,40 @@ function clearCurrentOperand() {
     updatePrimaryDisplay();
 }
 
+function updateContinousFunction (state) {
+    if (state === 'firstOperator') {
+        currentContinuousFunctionTotal = previousOperand;
+    } else if (state === 'equals') {
+        currentContinuousFunctionTotal = currentOperand;
+    } else {
+        currentContinuousFunctionTotal = performCalculation(currentOperand, currentContinuousFunctionTotal, operator)
+    }
+}  
+
 equalsButton.addEventListener('click', function() {
-   if (operator != '') {
-        currentOperand = performCalculation(currentOperand, previousOperand, operator)
-        updatePrimaryDisplay();
-        updateSecondaryDisplay();
+   if (operator) {
+    currentOperand = currentContinuousFunctionTotal;
+    updateContinousFunction('equals');
+    updatePrimaryDisplay();
+    updateSecondaryDisplay();
    }
 })
 
-function performCalculation(currentOperand, previousOperand, operator) {
+function performCalculation(currentOperand, currentContinuousFunctionTotal, operator) {
     let result = '';
-    if (currentOperand && previousOperand) {
+    if (currentOperand && currentContinuousFunctionTotal) {
         switch (operator) {
             case '/':
-                result = previousOperand / currentOperand;
+                result = currentContinuousFunctionTotal / currentOperand;
                 break;
             case '*':
-                result = previousOperand * currentOperand;
+                result = currentContinuousFunctionTotal * currentOperand;
                 break;
             case '+':
-                result = parseInt(previousOperand) + parseInt(currentOperand);
+                result = parseInt(currentContinuousFunctionTotal) + parseInt(currentOperand);
                 break;
             case '-':
-                result = previousOperand - currentOperand;
+                result = currentContinuousFunctionTotal - currentOperand;
                 break;
         }
     }
@@ -106,6 +126,7 @@ function allClear() {
     currentOperand = '0';
     previousOperand = ''
     operator = '';
+    currentContinuousFunctionTotal = '';
     updateSecondaryDisplay();
     updatePrimaryDisplay();
 }
