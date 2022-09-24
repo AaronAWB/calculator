@@ -137,7 +137,7 @@ function performCalculation(currentOperand, currentContinuousFunctionTotal, oper
                 break;
         }
     }
-    return result.toString();
+    return result.toFixed(3);
 }
 
 function allClear() {
