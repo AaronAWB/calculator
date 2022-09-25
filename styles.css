@@ -1,5 +1,11 @@
+body {
+    background-color: lightcyan;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
 H1 {
     text-align: center;
+    color: aliceblue;
 }
 
 .calculator {
@@ -14,9 +20,10 @@ H1 {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    border: solid red 5px;
     height: 550px;
     width: 350px;
+    background-color: darkgray;
+    border-radius: 5%;
 }
 
 .calculator-grid {
@@ -38,6 +45,7 @@ H1 {
     justify-content: space-between;
     flex-direction: column;
     padding: 10px;
+    background-color: lightgrey;
 }
 
 .memory-display {
@@ -61,11 +69,30 @@ H1 {
 .all-clear-button {
     grid-column-start: 1;
     grid-column-end: 3;
+    background-color: lightskyblue;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.backspace-button {
+    background-color: red;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.operator-button {
+    background-color: orange;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .equals-button {
     grid-column-start: 3;
     grid-column-end: 5;
+    background-color: lightgreen;
+}
+
+.memory-button {
+    background-color: black;
+    color: whitesmoke;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .memory-container {
