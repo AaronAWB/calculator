@@ -1,21 +1,21 @@
 body {
     background-color: lightcyan;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-family: sans-serif;
 }
 
 H1 {
     text-align: center;
-    color: aliceblue;
-}
-
-.calculator {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border: sold black 5px;
+    color: darkblue;
+    font-size: 50px;
 }
 
 .calculator-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calculator {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,6 +24,7 @@ H1 {
     width: 350px;
     background-color: darkgray;
     border-radius: 5%;
+    border: solid black 1px;
 }
 
 .calculator-grid {
@@ -38,20 +39,22 @@ H1 {
     grid-column-start: 1;
     grid-column-end: 5;
     height: 100px;
-    border: black solid 3px;
+    border: lightgrey solid 3px;
     color: black;
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
     flex-direction: column;
     padding: 10px;
-    background-color: lightgrey;
+    background-color: black;
+    font-weight: bold;
 }
 
 .memory-display {
     display: flex;
     align-self: start;
     height: 15px;
+    color: lightgray;
 }
 
 .secondary-display {
@@ -61,7 +64,7 @@ H1 {
 }
 
 .primary-display {
-    color: black;
+    color: white;
     font-size: 30px;
     height: 30px;
 }
@@ -70,29 +73,64 @@ H1 {
     grid-column-start: 1;
     grid-column-end: 3;
     background-color: lightskyblue;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15px;
+}
+
+.all-clear-button:hover {
+    background-color: rgb(123, 189, 229);
 }
 
 .backspace-button {
     background-color: red;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15px;
+}
+
+.backspace-button:hover {
+    background-color: rgb(223, 6, 6);
 }
 
 .operator-button {
     background-color: orange;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15px;
+}
+
+.operator-button:hover {
+    background-color: rgb(234, 133, 32);
+}
+
+.number-button {
+    font-size: 15px;
+    background-color: whitesmoke;
+}
+
+.decimal-button {
+    font-size: 15px;
+    background-color: whitesmoke;
+}
+
+.number-button:hover, .decimal-button:hover {
+    background-color: rgb(226, 222, 222);
 }
 
 .equals-button {
     grid-column-start: 3;
     grid-column-end: 5;
     background-color: lightgreen;
+    font-size: 15px;
+}
+
+.equals-button:hover {
+    background-color: rgb(98, 208, 98);
 }
 
 .memory-button {
-    background-color: black;
+    background-color: darkgreen;
     color: whitesmoke;
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 15px;
+}
+
+.memory-button:hover {
+    background-color: rgb(1, 85, 1);
 }
 
 .memory-container {
