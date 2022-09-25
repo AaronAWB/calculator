@@ -105,7 +105,7 @@ function updateContinousFunction (state) {
     } else if (state === 'equals') {
         currentContinuousFunctionTotal = currentOperand;
     } else {
-        currentContinuousFunctionTotal = performCalculation(currentOperand, currentContinuousFunctionTotal, operator)
+        currentContinuousFunctionTotal = formatNumber(performCalculation(currentOperand, currentContinuousFunctionTotal, operator));
     }
 }  
 
@@ -137,12 +137,18 @@ function performCalculation(currentOperand, currentContinuousFunctionTotal, oper
                 break;
         }
     }
-    return result.toFixed(3);
+    return result.toString();
+}
+
+function formatNumber(number) {
+    let formattedNumber = number;
+    if (number.includes('.')) formattedNumber = Math.round(number * 1000) / 1000;
+    return formattedNumber.toString();
 }
 
 function allClear() {
     currentOperand = '0'
-    previousOperand = ''
+    previousOperand = '';
     operator = '';
     currentContinuousFunctionTotal = '';
     totalIsDisplayed = false;

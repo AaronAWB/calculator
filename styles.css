@@ -2,11 +2,21 @@ H1 {
     text-align: center;
 }
 
+.calculator {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: sold black 5px;
+}
+
 .calculator-container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    border: solid red 5px;
+    height: 550px;
+    width: 350px;
 }
 
 .calculator-grid {
@@ -28,6 +38,12 @@ H1 {
     justify-content: space-between;
     flex-direction: column;
     padding: 10px;
+}
+
+.memory-display {
+    display: flex;
+    justify-content: left;
+    align-items: left;
 }
 
 .secondary-display {
