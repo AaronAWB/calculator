@@ -1,6 +1,7 @@
 let currentOperand = '0';
 let previousOperand = '';
-let operator = '';
+let currentOperator = '';
+let previousOperator = '';
 let currentTotal = '';
 let totalIsDisplayed = false;
 let isContinuousFunction = false;
@@ -54,7 +55,7 @@ function updatePrimaryDisplay() {
 updatePrimaryDisplay();
 
 function inputNumber(number) {
-    if (!operator) {
+    if (!currentOperator) {
         currentOperand === '0' ? currentOperand = number.toString() : currentOperand += number.toString();
     } else {
         currentOperand += number.toString();
@@ -63,20 +64,20 @@ function inputNumber(number) {
 }
 
 function inputOperator(selectedOperator) {
-    if (!operator) {
-        operator = selectedOperator;
+    if (!currentOperator) {
+        currentOperator = selectedOperator;
         previousOperand = currentOperand;
+        totalIsDisplayed = false;
         updateSecondaryDisplay();
         updateCurrentTotal();
-        totalIsDisplayed = false;
     } else {
-        operator = selectedOperator;
+        previousOperator = currentOperator;
+        currentOperator = selectedOperator;
         previousOperand = currentOperand;
         isContinuousFunction = true;
+        totalIsDisplayed = false;
         updateSecondaryDisplay();
         updateCurrentTotal()
-        totalIsDisplayed = false;
-        
     }
     updatePrimaryDisplay();
 }
@@ -90,10 +91,10 @@ function inputDecimal() {
 
 function updateSecondaryDisplay() {
     if (!isContinuousFunction) {
-        secondaryDisplay.innerText = previousOperand + " " + operator;
+        secondaryDisplay.innerText = previousOperand + " " + currentOperator;
         clearCurrentOperand();
     } else {
-        secondaryDisplay.innerText += " " + currentOperand + " " + operator;
+        secondaryDisplay.innerText += " " + currentOperand + " " + currentOperator;
         clearCurrentOperand();
     }
 }
@@ -115,9 +116,9 @@ function updateCurrentTotal () {
     if (!isContinuousFunction && !totalIsDisplayed) {
         currentTotal = previousOperand;
     } else if (!isContinuousFunction && totalIsDisplayed) {
-        currentTotal = formatNumber(performCalculation(currentTotal, currentOperand, operator));
+        currentTotal = formatNumber(performCalculation(currentTotal, currentOperand, currentOperator));
     } else {
-        currentTotal = formatNumber(performCalculation(currentTotal, previousOperand, operator));
+        currentTotal = formatNumber(performCalculation(currentTotal, previousOperand, previousOperator));
     }
 }  
 
@@ -129,13 +130,13 @@ function displayResult() {
 equalsButton.addEventListener('click', equals)
 
 function equals() {
-    if (operator && currentOperand != '') {
+    if (currentOperator && currentOperand != '') {
         totalIsDisplayed = true;
         isContinuousFunction = false;
         updateCurrentTotal();
         updatePrimaryDisplay();
         clearSecondaryDisplay();
-        clearOperator();
+        clearOperators();
         displayResult();
        }
 }
@@ -165,8 +166,9 @@ function formatNumber(number) {
     return formattedNumber.toString();
 }
 
-function clearOperator() {
-    operator = '';
+function clearOperators() {
+    currentOperator = '';
+    previousOperator = '';
 }
 
 function allClear() {
@@ -177,7 +179,7 @@ function allClear() {
     isContinuousFunction = false;
     updatePrimaryDisplay();
     clearSecondaryDisplay();
-    clearOperator();
+    clearOperators();
 }
 
 function backSpace() {
