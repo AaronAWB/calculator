@@ -1,9 +1,13 @@
 let currentOperand = '0';
 let previousOperand = '';
 let operator = '';
-let currentContinuousFunctionTotal = '';
+let currentTotal = '';
 let totalIsDisplayed = false;
+let isContinuousFunction = false;
 let memory = '';
+
+const primaryDisplay = document.querySelector('.primary-display');
+const secondaryDisplay = document.querySelector('.secondary-display');
 
 const numberButtons = document.querySelectorAll('.number-button');
 const operatorButtons = document.querySelectorAll('.operator-button');
@@ -41,7 +45,6 @@ memoryClearButton.addEventListener('click', clearMemory)
 
 
 function updatePrimaryDisplay() {
-    const primaryDisplay = document.querySelector('.primary-display');
     primaryDisplay.innerText = currentOperand;
     if (currentOperand.length > 10) {
         currentOperand = currentOperand.substring (0, 11);
@@ -57,17 +60,23 @@ function inputNumber(number) {
         currentOperand += number.toString();
     }
     updatePrimaryDisplay();
-    updateContinousFunction();
 }
 
 function inputOperator(selectedOperator) {
     if (!operator) {
         operator = selectedOperator;
-        updateSecondaryDisplay('firstCalculation')
+        previousOperand = currentOperand;
+        updateSecondaryDisplay();
+        updateCurrentTotal();
+        totalIsDisplayed = false;
     } else {
         operator = selectedOperator;
-        updateSecondaryDisplay('continuousFunction');
+        previousOperand = currentOperand;
+        isContinuousFunction = true;
+        updateSecondaryDisplay();
+        updateCurrentTotal()
         totalIsDisplayed = false;
+        
     }
     updatePrimaryDisplay();
 }
@@ -79,19 +88,18 @@ function inputDecimal() {
     }
 }
 
-function updateSecondaryDisplay(state) {
-    const secondaryDisplay = document.querySelector('.secondary-display');
-    if (state === 'firstCalculation') {
-        previousOperand = currentOperand;
+function updateSecondaryDisplay() {
+    if (!isContinuousFunction) {
         secondaryDisplay.innerText = previousOperand + " " + operator;
-        updateContinousFunction('firstOperator');
-        clearCurrentOperand();
-    } else if (state === 'continuousFunction') {
-        secondaryDisplay.innerText += " " + currentOperand + " " + operator;
         clearCurrentOperand();
     } else {
-        secondaryDisplay.innerText = ''
+        secondaryDisplay.innerText += " " + currentOperand + " " + operator;
+        clearCurrentOperand();
     }
+}
+
+function clearSecondaryDisplay() {
+    secondaryDisplay.innerText = '';
 }
 
 function clearCurrentOperand() {
@@ -99,44 +107,55 @@ function clearCurrentOperand() {
     updatePrimaryDisplay();
 }
 
-function updateContinousFunction (state) {
-    if (state === 'firstOperator') {
-        currentContinuousFunctionTotal = previousOperand;
-    } else if (state === 'equals') {
-        currentContinuousFunctionTotal = currentOperand;
+function clearPreviousOperand() {
+    previousOperand = '';
+}
+
+function updateCurrentTotal () {
+    if (!isContinuousFunction && !totalIsDisplayed) {
+        currentTotal = previousOperand;
+    } else if (!isContinuousFunction && totalIsDisplayed) {
+        currentTotal = formatNumber(performCalculation(currentTotal, currentOperand, operator));
     } else {
-        currentContinuousFunctionTotal = formatNumber(performCalculation(currentOperand, currentContinuousFunctionTotal, operator));
+        currentTotal = formatNumber(performCalculation(currentTotal, previousOperand, operator));
     }
 }  
 
-equalsButton.addEventListener('click', function() {
-   if (operator) {
-    currentOperand = currentContinuousFunctionTotal;
-    totalIsDisplayed = true;
-    updateContinousFunction('equals');
+function displayResult() {
+    currentOperand = currentTotal;
     updatePrimaryDisplay();
-    updateSecondaryDisplay();
-   }
-})
+}
 
-function performCalculation(currentOperand, currentContinuousFunctionTotal, operator) {
+equalsButton.addEventListener('click', equals)
+
+function equals() {
+    if (operator && currentOperand != '') {
+        totalIsDisplayed = true;
+        isContinuousFunction = false;
+        updateCurrentTotal();
+        updatePrimaryDisplay();
+        clearSecondaryDisplay();
+        clearOperator();
+        displayResult();
+       }
+}
+  
+function performCalculation(number1, number2, operator) {
     let result = '';
-    if (currentOperand && currentContinuousFunctionTotal) {
-        switch (operator) {
-            case '/':
-                result = currentContinuousFunctionTotal / currentOperand;
-                break;
-            case '*':
-                result = currentContinuousFunctionTotal * currentOperand;
-                break;
-            case '+':
-                result = parseInt(currentContinuousFunctionTotal) + parseInt(currentOperand);
-                break;
-            case '-':
-                result = currentContinuousFunctionTotal - currentOperand;
-                break;
+    switch (operator) {
+        case '/':
+            result = number1 / number2;
+            break;
+        case '*':
+            result = number1 * number2;
+            break;
+        case '+':
+            result = parseInt(number1) + parseInt(number2);
+            break;
+        case '-':
+            result = number1 - number2;
+            break;
         }
-    }
     return result.toString();
 }
 
@@ -146,14 +165,19 @@ function formatNumber(number) {
     return formattedNumber.toString();
 }
 
+function clearOperator() {
+    operator = '';
+}
+
 function allClear() {
     currentOperand = '0'
     previousOperand = '';
-    operator = '';
-    currentContinuousFunctionTotal = '';
+    currentTotal = '';
     totalIsDisplayed = false;
+    isContinuousFunction = false;
     updatePrimaryDisplay();
-    updateSecondaryDisplay();
+    clearSecondaryDisplay();
+    clearOperator();
 }
 
 function backSpace() {
