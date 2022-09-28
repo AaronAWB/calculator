@@ -112,7 +112,7 @@ function clearPreviousOperand() {
     previousOperand = '';
 }
 
-function updateCurrentTotal () {
+function updateCurrentTotal() {
     if (!isContinuousFunction && !totalIsDisplayed) {
         currentTotal = previousOperand;
     } else if (!isContinuousFunction && totalIsDisplayed) {
