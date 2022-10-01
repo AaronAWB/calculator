@@ -69,9 +69,7 @@ function inputOperator(selectedOperator) {
     totalIsDisplayed = false;
     updateSecondaryDisplay();
     updateCurrentTotal();
-    if (!currentOperator) {
-        return
-    } else {
+    if (currentOperator) {
         previousOperator = currentOperator;
         isContinuousFunction = true;
     }
