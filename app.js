@@ -64,20 +64,16 @@ function inputNumber(number) {
 }
 
 function inputOperator(selectedOperator) {
+    currentOperator = selectedOperator;
+    previousOperand = currentOperand;
+    totalIsDisplayed = false;
+    updateSecondaryDisplay();
+    updateCurrentTotal();
     if (!currentOperator) {
-        currentOperator = selectedOperator;
-        previousOperand = currentOperand;
-        totalIsDisplayed = false;
-        updateSecondaryDisplay();
-        updateCurrentTotal();
+        return
     } else {
         previousOperator = currentOperator;
-        currentOperator = selectedOperator;
-        previousOperand = currentOperand;
         isContinuousFunction = true;
-        totalIsDisplayed = false;
-        updateSecondaryDisplay();
-        updateCurrentTotal()
     }
     updatePrimaryDisplay();
 }
