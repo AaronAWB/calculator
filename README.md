@@ -6,7 +6,7 @@ Launch <a href='https://aaronawb.github.io/calculator/'>here</a>
 
 ## Summary
 
-This is a standard calculator built from scratch in JavaScript, CSS, and HTML without relying on any tutorials, libraries, or frameworks. The user is able to input a continuous function that is displayed on the secondary display. The calculator also has a memory function, allowing the user to store, reduce, recall, and clear a number saved to memory and displayed in the upper left hand cornder of the display.
+This is a standard calculator built from scratch in JavaScript, CSS, and HTML without relying on any tutorials, libraries, or frameworks. The user is able to input a continuous function that is displayed on the secondary display. The calculator also has a memory function, allowing the user to store, reduce, recall, and clear a number saved to memory and displayed in the upper left hand corner of the display.
 
 ## Author
 
